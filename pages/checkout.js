@@ -3,13 +3,16 @@ import Link from "next/link";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import { BsBagCheckFill } from "react-icons/bs";
 import axios from "axios";
+import getStripe from "./getStripe";
 function checkout({ cart, clearCart, addToCart, removeFromCart, subTotal }) {
-  const initaiatePayment = () => {
+  const initaiatePayment = async () => {
     const { data: id } = axios.post("/api/StripeCheckout", {
-      item: Object.entries(cart).map((key) => {
+      item: Object.keys(cart).map((key) => {
         console.log(key);
       }),
     });
+    const stripe = await getStripe();
+    await stripe.initaiatePayment({ checkoutSesoin: sessionId.id });
   };
   return (
     <>
